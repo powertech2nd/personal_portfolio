@@ -22,5 +22,5 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/core-ui', function (){
-    return view('admin/main');
+    return view('admin/educations/index');
 });
