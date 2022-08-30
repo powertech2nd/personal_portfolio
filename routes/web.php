@@ -21,6 +21,14 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/core-ui', function (){
-    return view('admin/educations/index');
+
+
+Route::prefix('admin')->group(function () {
+    Route::get('/educations', function (){
+        return view('admin.educations.index');
+    });
+
+    Route::get('/educations/create', function (){
+        return view('admin.educations.create');
+    });
 });

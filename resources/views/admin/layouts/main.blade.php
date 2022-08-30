@@ -58,7 +58,10 @@
     <link href="{{ asset('admin-core-ui/css/examples.css') }}" rel="stylesheet">
 
     <link href="{{ asset('admin-core-ui/vendors/@coreui/chartjs/css/coreui-chartjs.css') }}" rel="stylesheet">
-    @section('custom-css')
+
+    {{-- Core UI Icons --}}
+    <link href="{{ asset('admin-core-ui/vendors/@coreui/icons/css/free.min.css') }}" rel="stylesheet">
+    @yield('custom-css')
 </head>
 
 <body>
@@ -76,6 +79,9 @@
             <div class="ms-auto">Powered by&nbsp;<a href="https://coreui.io/docs/">CoreUI UI Components</a></div>
         </footer>
     </div>
+
+    {{-- JQuery --}}
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <!-- CoreUI and necessary plugins-->
     <script src="{{ asset('admin-core-ui/vendors/@coreui/coreui/js/coreui.bundle.min.js') }}"></script>
     <script src="{{ asset('admin-core-ui/vendors/simplebar/js/simplebar.min.js') }}"></script>
@@ -85,7 +91,7 @@
     <script src="{{ asset('admin-core-ui/vendors/@coreui/utils/js/coreui-utils.js') }}"></script>
     <script>
     </script>
-    @section('custom-js')
+    @yield('custom-js')
 </body>
 
 </html>
