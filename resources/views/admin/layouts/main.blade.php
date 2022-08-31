@@ -69,6 +69,14 @@
     <div class="wrapper d-flex flex-column min-vh-100 bg-light">
        @include('admin.layouts._header')
         <div class="body flex-grow-1 px-3">
+
+            @if(Session::has('global_success_alert_msg'))
+                <div class="alert {{ Session::get('global_success_alert_class', 'alert-info') }} alert-dismissible fade show" role="alert">
+                    {{ Session::get('global_success_alert_msg') }}
+                    <button type="button" class="btn-close" data-coreui-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+          
             <div class="container-lg">
                 @yield('content')
             </div>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EducationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,11 +25,5 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 Route::prefix('admin')->group(function () {
-    Route::get('/educations', function (){
-        return view('admin.educations.index');
-    });
-
-    Route::get('/educations/create', function (){
-        return view('admin.educations.create');
-    });
+    Route::resource('educations', EducationController::class);
 });
