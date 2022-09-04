@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="card mb-4">
-    <div class="card-header"><strong>Educations</strong><span class="small ms-3">Create</span></div>
+    <div class="card-header"><strong>Educations</strong><span class="small ms-3">{{ $form_state == 'create' ?? 'Create' ?? 'Update'}}</span></div>
     <div class="card-body">
         <div class="container">
             @if($form_state == 'create')
@@ -91,7 +91,7 @@
                                     <input
                                         class="form-check-input  @error('is_currently_studying') is-invalid @enderror"
                                         id="is_currently_studying" name="is_currently_studying" type="checkbox"
-                                        value="1" {{ old('is_currently_studying') || $education->is_currently_studying ? 'checked' : '' }}>
+                                        value="1" {{ old('is_currently_studying', $education->is_currently_studying ?? false) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="is_currently_studying">Is currently
                                         studying</label>
                                     @error('is_currently_studying')

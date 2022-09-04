@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Education;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\StoreEducationRequest;
 use App\Http\Requests\UpdateEducationRequest;
@@ -18,7 +19,9 @@ class EducationController extends Controller
     public function index()
     {
         $educations = Education::paginate(2);
-        return view('admin.educations.index', compact('educations'));
+        $breadcrumbs_route = Route::currentRouteName();
+        $breadcrumbs_object = null;
+        return view('admin.educations.index', compact('educations', 'breadcrumbs_route', 'breadcrumbs_object'));
     }
 
     /**
@@ -29,7 +32,9 @@ class EducationController extends Controller
     public function create()
     {
         $form_state = "create";
-        return view('admin.educations.form', compact('form_state'));
+        $breadcrumbs_route = Route::currentRouteName();
+        $breadcrumbs_object = null;
+        return view('admin.educations.form', compact('form_state', 'breadcrumbs_route', 'breadcrumbs_object'));
     }
 
     /**
@@ -77,7 +82,9 @@ class EducationController extends Controller
     public function edit(Education $education)
     {
         $form_state = "update";
-        return view('admin.educations.form', compact('form_state', 'education'));
+        $breadcrumbs_route = Route::currentRouteName();
+        $breadcrumbs_object = $education;
+        return view('admin.educations.form', compact('form_state', 'education', 'breadcrumbs_route', 'breadcrumbs_object'));
     }
 
     /**
