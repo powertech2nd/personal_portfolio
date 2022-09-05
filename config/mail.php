@@ -36,12 +36,12 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
-            'timeout' => null,
+            'host'      => env('APP_ENV') == env('ENV_PROD', 'production') ? env('MAIL_HOST', 'smtp.mailgun.org') : env('MAIL_HOST_DEV'),
+            'port'      => env('APP_ENV') == env('ENV_PROD', 'production') ? env('MAIL_PORT', 587) : env('MAIL_PORT_DEV'),
+            'encryption'=> env('APP_ENV') == env('ENV_PROD', 'production') ? env('MAIL_ENCRYPTION', 'tls') : env('MAIL_ENCRYPTION_DEV'),
+            'username'  => env('APP_ENV') == env('ENV_PROD', 'production') ? env('MAIL_USERNAME') : env('MAIL_USERNAME_DEV'),
+            'password'  => env('APP_ENV') == env('ENV_PROD', 'production') ? env('MAIL_PASSWORD') : env('MAIL_PASSWORD_DEV'),
+            'timeout'   => null,
             'auth_mode' => null,
         ],
 
