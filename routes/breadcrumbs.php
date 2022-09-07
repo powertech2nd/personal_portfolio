@@ -23,3 +23,8 @@ Breadcrumbs::for('educations.edit', function (BreadcrumbTrail $trail, Education 
     $trail->parent('educations.index');
     $trail->push('Edit', route('educations.edit', $education));
 });
+
+
+Breadcrumbs::for('workplaces.index', function (BreadcrumbTrail $trail) {
+    $trail->push('Workplaces', route('workplaces.index'));
+});
