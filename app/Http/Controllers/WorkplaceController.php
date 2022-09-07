@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\WorkplaceDataTable;
+use Carbon\Carbon;
 use App\Models\Workplace;
+use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Route;
+use App\DataTables\WorkplaceDataTable;
 use App\Http\Requests\StoreWorkplaceRequest;
 use App\Http\Requests\UpdateWorkplaceRequest;
-use Yajra\Datatables\Datatables;
 
 class WorkplaceController extends Controller
 {
@@ -30,7 +31,20 @@ class WorkplaceController extends Controller
      */
     public function indexApi()
     {
-        return Datatables::of(Workplace::query())->make(true);
+        return Datatables::of(Workplace::query())
+            ->editColumn('date_join', function ($workplace) {
+               $date = Carbon::createFromFormat('Y-m-d', $workplace->date_join);
+               return $date->format('d-m-Y');
+                
+            })
+            ->editColumn('date_leave', function ($workplace) {
+                if (!$workplace->date_leave) {
+                    return "";
+                }
+                $date = Carbon::createFromFormat('Y-m-d', $workplace->date_leave);
+                return $date->format('d-m-Y');
+            })
+            ->make(true);
     }
 
     /**

@@ -39,8 +39,9 @@
 <script>
     $(document).ready(function () {
         $('#table_id').DataTable({
-            processing: true,
-            serverSide: true,
+            processing: true, // display of a 'processing' indicator 
+            serverSide: true, // server side processing
+            pageLength: 2, // pagination size
             ajax: '{!! route('workplaces.indexApi') !!}',
             columns: [
                 { data: 'id', name: 'id' },
