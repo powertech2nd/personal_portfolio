@@ -47,6 +47,23 @@ class WorkplaceController extends Controller
                 $date = Carbon::createFromFormat('Y-m-d', $workplace->date_leave);
                 return $date->format('d-m-Y');
             })
+            ->addColumn('Action', function ($workplace) {
+                return '
+                <div class="col-auto">
+                        <a href="#" onclick="EditWorkplace('.$workplace->id.')" class="text-decoration-none">
+                            <button class="btn btn-warning" type="button">
+                                <i class="icon icon-2xl cil-pen"></i>
+                            </button>
+                        </a>
+                        <a href="#" onclick="DeleteWorkplace('.$workplace->id.')" class="text-decoration-none">
+                            <button class="btn btn-danger btn delete" type="submit">
+                                <i class="icon icon-2xl cil-trash"></i>
+                            </button>
+                        </a>
+                    </div>
+                ';
+            })
+            ->rawColumns(['Action'])
             ->make(true);
     }
 
@@ -151,6 +168,19 @@ class WorkplaceController extends Controller
      */
     public function destroy(Workplace $workplace)
     {
-        //
+        $delete = $workplace->delete();
+
+        if (!$delete) {
+            //App::abort(500, 'Some Error');
+            return Response::json(array(
+                'code'      =>  500,
+                'message'   =>  'Failed to delete data'
+            ), 500);
+        }
+
+        return Response::json(array(
+            'code'      =>  200,
+            'message'   =>  'Success'
+        ), 200);
     }
 }

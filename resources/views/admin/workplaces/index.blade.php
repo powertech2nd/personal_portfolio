@@ -3,6 +3,7 @@
 @section('custom-css')
 <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" type="text/css" />
 <link href="{{ asset('bootstrap-datepicker/css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -15,7 +16,7 @@
             @include('admin.workplaces._form')
         </div>
         <div class="container">
-            <table id="table_id" class="display">
+            <table id="table_workplaces" class="display">
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -25,6 +26,7 @@
                         <th>Description</th>
                         <th>Date Join</th>
                         <th>Date Leave</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,8 +41,9 @@
 @section('custom-js')
 <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script>
+    let table;
     $(document).ready(function () {
-        $('#table_id').DataTable({
+         table = $('#table_workplaces').DataTable({
             processing: true, // display of a 'processing' indicator 
             serverSide: true, // server side processing
             pageLength: 2, // pagination size
@@ -51,13 +54,16 @@
                 { data: 'city', name: 'city' },
                 { data: 'position', name: 'position' },
                 { data: 'description', name: 'description' },
-                { data: 'date_join', name: 'date_join' },
-                { data: 'date_leave', name: 'date_leave' },
+                { data: 'date_join', name: 'date_join',  width: "90px" },
+                { data: 'date_leave', name: 'date_leave', width: "90px" },
+                { data: 'Action', name: 'Action', 'orderable': false, 'searchable': false, width: '90px'},
             ]
         });
     });
 
 </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script src="{{ asset('bootstrap-datepicker/js/bootstrap-datepicker.min.js')  }}"></script>
 <script>
@@ -121,7 +127,9 @@
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             data: data,
             success: function (msg) {
-                alert(msg);
+                table.ajax.reload();
+                toastr.success(msg.message);
+                ClearFormWorkplace();
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 ShowErrorMessages(XMLHttpRequest.responseJSON.errors);
@@ -162,5 +170,28 @@
         formGroups.forEach((element)=>element.classList.remove('is-invalid'));
     }
 
+    //action DeleteWorkplace
+	function DeleteWorkplace(id){
+		var popup = confirm("Do you want to delete this data?");
+		var csrf_token= $('meta[name="csrf_token"').attr("content");
+
+
+		if (popup == true) {
+			$.ajax({
+				url:"{{url('admin/workplaces')}}"+"/"+id,
+				type:"DELETE",
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+				//data:{'_method':'DELETE','_token':"{{ csrf_token() }}"},
+			})
+			.done(function(data){
+				table.ajax.reload();
+				toastr.success('Success delete data');
+			})
+			.fail(function(){
+				toastr.error('Error deleting data');
+
+			})
+		}
+	}
 </script>
 @endsection
