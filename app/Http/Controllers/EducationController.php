@@ -50,7 +50,7 @@ class EducationController extends Controller
             'major' => $request->major,
             'city' => $request->city,
             'date_start' => Carbon::createFromFormat('d/m/Y', $request->date_start)->format('Y-m-d'),
-            'date_end' => Carbon::createFromFormat('d/m/Y', $request->date_finish)->format('Y-m-d'),
+            'date_finish' => $request->date_finish ? Carbon::createFromFormat('d/m/Y', $request->date_finish)->format('Y-m-d') : null,
             'is_currently_studying' => $request->is_currently_studying ? true : false,
         ]);
 

@@ -72,7 +72,7 @@
                             <label class="form-label" for="date_finish">Date Finish</label>
                             <div class="input-group date">
                                 <input type="text"
-                                    class="form-control datepicker @error('date_finsih') is-invalid @enderror"
+                                    class="form-control datepicker @error('date_finish') is-invalid @enderror"
                                     id="date_finish" name="date_finish"
                                     value="{{ \Carbon\Carbon::parse(old('date_finish', $education->date_finish ?? ''))->format('d/m/Y') }}">
                                 <span class="input-group-append">
@@ -116,6 +116,13 @@
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
     });
+
+    $('#is_currently_studying').change(function () {
+        if($(this).is(':checked')) {
+            $('#date_finish').val("").datepicker("update");
+        }
+    });
+   
 
     //$("[name='date_start']").datepicker("update", new Date());
     //$("[name='date_finish']").datepicker("update", new Date());
