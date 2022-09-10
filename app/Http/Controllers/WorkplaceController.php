@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Workplace;
+use Illuminate\Support\Str;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Route;
 use App\DataTables\WorkplaceDataTable;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 use App\Http\Requests\StoreWorkplaceRequest;
 use App\Http\Requests\UpdateWorkplaceRequest;
 
@@ -65,7 +68,45 @@ class WorkplaceController extends Controller
      */
     public function store(StoreWorkplaceRequest $request)
     {
-        //
+        $path = null;
+        // save the picture if exists
+        if ($request->logo) {
+            $file_name = $request->file('logo')->getClientOriginalName();
+            $random_folder_name = Str::uuid()->toString();
+            $path = $random_folder_name . '/' . $file_name;
+
+            if(!Storage::disk('public')->put($path, $request->file('logo')->get())) {
+                return Response::json(array(
+                    'code'      =>  500,
+                    'message'   =>  'Failed to save uploaded file'
+                ), 500);
+            }
+        }
+
+        $workplace = Workplace::create([
+            'instance_name' => $request->instance_name,
+            'city' => $request->city,
+            'position' => $request->position,
+            'description' => $request->description,
+            'date_join' => Carbon::createFromFormat('d/m/Y', $request->date_join)->format('Y-m-d'),
+            'date_leave' => $request->date_leave ? Carbon::createFromFormat('d/m/Y', $request->date_leave)->format('Y-m-d') : null,
+            'is_current_workplace' => $request->is_current_workplace ? true : false,
+            'order' => $request->order,
+            'logo' => $path ? Storage::url($path) : null,
+        ]);
+
+        if (!$workplace) {
+            //App::abort(500, 'Some Error');
+            return Response::json(array(
+                'code'      =>  500,
+                'message'   =>  'Failed to save data'
+            ), 500);
+        }
+
+        return Response::json(array(
+            'code'      =>  200,
+            'message'   =>  'Success'
+        ), 200);
     }
 
     /**
