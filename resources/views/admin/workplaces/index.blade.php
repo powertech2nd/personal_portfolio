@@ -65,6 +65,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/luxon@3.0.3/build/global/luxon.min.js" integrity="sha256-RH4TKnKcKyde0s2jc5BW3pXZl/5annY3fcZI9VrV5WQ=" crossorigin="anonymous"></script>
+
 <script src="{{ asset('bootstrap-datepicker/js/bootstrap-datepicker.min.js')  }}"></script>
 <script>
     $('.datepicker').datepicker({
@@ -77,10 +79,18 @@
     const FORM_WORKPLACE_STATE_CREATE = 'create';
     const FORM_WORKPLACE_STATE_UPDATE = 'update';
 
+    let DateTime = luxon.DateTime;
+
+    let idWorkplace = 0;
     let form_workplace_state = FORM_WORKPLACE_STATE_CREATE;
 
     $('#btnOpenFormWorkplaceCreate ').on('click', function(e) {
         form_workplace_state = FORM_WORKPLACE_STATE_CREATE
+        $('.modal-title').text('Create Workplace');
+        $('#logo_link').attr("href", "#");
+        $('#logo_link').html("");
+        ClearFormWorkplace();
+        ClearErrorMessages();
     });
 
     $('#is_current_workplace').change(function () {
@@ -98,9 +108,13 @@
         let ajax_type = "POST";
         let ajax_url = "{{ route('workplaces.store') }}";
 
+        var form = $("#formWorkplace").get(0);
+        var data = new FormData(form);
+
         if(form_workplace_state == FORM_WORKPLACE_STATE_UPDATE) {
-            ajax_type = "PUT";
-           
+            //ajax_type = "PUT";
+            ajax_url = "{{ url('admin/workplaces') }}" + '/' + idWorkplace;
+            data.append('_method','PUT')
         }
 
         // $.ajax({
@@ -116,9 +130,6 @@
         //     }
         // });
 
-        var form = $("#formWorkplace").get(0);
-        var data = new FormData(form);
-
         $.ajax({
             type: ajax_type,
             processData: false,
@@ -127,9 +138,15 @@
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
             data: data,
             success: function (msg) {
-                table.ajax.reload();
+                table.ajax.reload(null, false);
                 toastr.success(msg.message);
-                ClearFormWorkplace();
+
+                if(form_workplace_state == FORM_WORKPLACE_STATE_CREATE) {
+                    ClearFormWorkplace()
+                }else {
+                    $('#modalFormWorkplace').modal('hide');
+                };
+                
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
                 ShowErrorMessages(XMLHttpRequest.responseJSON.errors);
@@ -170,6 +187,47 @@
         formGroups.forEach((element)=>element.classList.remove('is-invalid'));
     }
 
+    // Show EditWorkplace form
+	function EditWorkplace(id){
+		form_workplace_state = FORM_WORKPLACE_STATE_UPDATE;
+        idWorkplace = id;
+
+		$.ajax({
+			url:"{{ url('admin/workplaces' )}}"+'/'+id+'/edit',
+			type:'GET',
+			dataType:'JSON',
+		})
+		.done(function(data){
+            ClearErrorMessages();
+			$('#modalFormWorkplace').modal('show');
+
+            let date_join = DateTime.fromFormat(data.date_join, "yyyy-MM-dd").toFormat('dd/MM/yyyy');
+            let date_leave = data.date_leave ? DateTime.fromFormat(data.date_leave, "yyyy-MM-dd").toFormat('dd/MM/yyyy') : null;
+
+			$('.modal-title').text('Edit Workplace');
+			$("#instance_name").val(data.instance_name);
+			$("#city").val(data.city);
+			$('#position').val(data.position);
+			$("#description").val(data.description);
+            $('#date_join').val(date_join).datepicker("update");
+            $('#date_leave').val(date_leave).datepicker("update");
+			$("#order").val(data.order);
+            $('#is_current_workplace').prop('checked', data.is_current_workplace);
+
+            if(data.logo) {
+                $("#logo_link").attr('href', data.logo);
+                $("#logo_link").html(data.logo.split("/").pop());
+            }else{
+                $("#logo_link").attr('href', "#");
+                $("#logo_link").html("");
+            }
+		})
+		.fail(function(data){
+			toastr.error('Fail get data');
+		})
+	}
+
+
     //action DeleteWorkplace
 	function DeleteWorkplace(id){
 		var popup = confirm("Do you want to delete this data?");
@@ -178,13 +236,13 @@
 
 		if (popup == true) {
 			$.ajax({
-				url:"{{url('admin/workplaces')}}"+"/"+id,
+				url:"{{ url('admin/workplaces') }}"+"/"+id,
 				type:"DELETE",
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
 				//data:{'_method':'DELETE','_token':"{{ csrf_token() }}"},
 			})
 			.done(function(data){
-				table.ajax.reload();
+				table.ajax.reload(null, false);
 				toastr.success('Success delete data');
 			})
 			.fail(function(){

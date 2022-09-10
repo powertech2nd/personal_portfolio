@@ -24,7 +24,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="description" class="col-form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description"></textarea>
+                        <textarea class="form-control" id="description" name="description" rows="5"></textarea>
                         <div class="invalid-feedback"></div>
                     </div>
                     <div class="mb-3">
@@ -65,6 +65,7 @@
                     <div class="mb-3">
                         <label for="logo" class="col-form-label">Logo</label>
                         <input type="file" class="form-control" id="logo" name="logo">
+                        <a href="#" target=”_blank” id="logo_link">Logo</a>
                         <div class="invalid-feedback"></div>
                     </div>
                     <div class="row mb-3">
