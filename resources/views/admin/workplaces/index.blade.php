@@ -46,7 +46,7 @@
          table = $('#table_workplaces').DataTable({
             processing: true, // display of a 'processing' indicator 
             serverSide: true, // server side processing
-            pageLength: 2, // pagination size
+            pageLength: 10, // pagination size
             ajax: '{!! route('workplaces.indexApi') !!}',
             columns: [
                 { data: 'id', name: 'id' },

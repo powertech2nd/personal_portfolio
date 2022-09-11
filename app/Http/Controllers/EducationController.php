@@ -18,7 +18,7 @@ class EducationController extends Controller
      */
     public function index()
     {
-        $educations = Education::paginate(2);
+        $educations = Education::paginate(10);
         $breadcrumbs_route = Route::currentRouteName();
         $breadcrumbs_object = null;
         return view('admin.educations.index', compact('educations', 'breadcrumbs_route', 'breadcrumbs_object'));
