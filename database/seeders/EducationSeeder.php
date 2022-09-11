@@ -16,7 +16,7 @@ class EducationSeeder extends Seeder
      */
     public function run()
     {
-        $countEducation = Education::all()->count();
+        $countEducation = Education::count();
         if ($countEducation > 0) {
             $this->command->info("Skipped because total row > 0");
             return;

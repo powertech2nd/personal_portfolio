@@ -15,7 +15,7 @@ class WorkplaceSeeder extends Seeder
      */
     public function run()
     {
-        $countData = Workplace::all()->count();
+        $countData = Workplace::count();
         if ($countData > 0) {
             $this->command->info("Skipped because total row > 0");
             return;
