@@ -2,8 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EducationController;
-use App\Http\Controllers\TechStackTypeController;
+use App\Http\Controllers\TechStackController;
 use App\Http\Controllers\WorkplaceController;
+use App\Http\Controllers\TechStackTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::resource('workplaces', WorkplaceController::class);
 
     Route::resource('techStackTypes', TechStackTypeController::class);
+
+    Route::get('/techStacks/indexApi', [TechStackController::class, 'indexApi'])->name('techStacks.indexApi');
+    Route::resource('techStacks', TechStackController::class);
 });

@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\TechStack;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class TechStackType extends Model
+class TechStack extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -17,7 +16,7 @@ class TechStackType extends Model
      *
      * @var string
      */
-    protected $table = 'tech_stack_types';
+    protected $table = 'tech_stacks';
 
     /**
      * The attributes that aren't mass assignable.
@@ -27,8 +26,8 @@ class TechStackType extends Model
     protected $guarded = ['created_at', 'updated_at', 'deleted_at'];
 
 
-    public function techStacks()
+    public function techStackType()
     {
-        return $this->hasMany(TechStack::class, 'tech_stack_type_id', 'id');
+        return $this->belongsTo(TechStackType::class, 'tech_stack_type_id', 'id');
     }
 }

@@ -3,9 +3,10 @@
 // Note: Laravel will automatically resolve `Breadcrumbs::` without
 // this import. This is nice for IDE syntax and refactoring.
 use App\Models\Education;
-use App\Models\TechStackType;
+use App\Models\TechStack;
 // This import is also not required, and you could replace `BreadcrumbTrail $trail`
 //  with `$trail`. This is nice for IDE type checking and completion.
+use App\Models\TechStackType;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
@@ -48,3 +49,20 @@ Breadcrumbs::for('techStackTypes.edit', function (BreadcrumbTrail $trail, TechSt
     $trail->push('Edit', route('techStackTypes.edit', $techStackType));
 });
 /* end TECHSTACK TYPE */
+
+
+/* TECHSTACK */
+Breadcrumbs::for('techStacks.index', function (BreadcrumbTrail $trail) {
+    $trail->push('Tech Stack', route('techStacks.index'));
+});
+
+Breadcrumbs::for('techStacks.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('techStacks.index');
+    $trail->push('Create', route('techStacks.create'));
+});
+
+Breadcrumbs::for('techStacks.edit', function (BreadcrumbTrail $trail, TechStack $techStack) {
+    $trail->parent('techStacks.index');
+    $trail->push('Edit', route('techStacks.edit', $techStack));
+});
+/* end TECHSTACK */
