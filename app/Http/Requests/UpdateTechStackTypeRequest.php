@@ -24,8 +24,9 @@ class UpdateTechStackTypeRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route('techStackType')->id;
         return [
-            'name' => 'required|unique:tech_stack_types|max:255',
+            'name' => 'required|unique:tech_stack_types,name,'.$id.'|max:255',
         ];
     }
 }

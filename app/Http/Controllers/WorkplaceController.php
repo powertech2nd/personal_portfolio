@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
-use App\DataTables\WorkplaceDataTable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 use App\Http\Requests\StoreWorkplaceRequest;

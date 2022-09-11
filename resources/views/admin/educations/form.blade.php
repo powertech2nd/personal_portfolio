@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="card mb-4">
-    <div class="card-header"><strong>Educations</strong><span class="small ms-3">{{ $form_state == 'create' ?? 'Create' ?? 'Update'}}</span></div>
+    <div class="card-header"><strong>Educations</strong><span class="small ms-3">{{ $form_state == 'create' ? 'Create' : 'Update'}}</span></div>
     <div class="card-body">
         <div class="container">
             @if($form_state == 'create')
