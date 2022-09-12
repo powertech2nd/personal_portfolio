@@ -37,17 +37,11 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="name">Type</label>
-                        <select class="select2 form-select" name="tech_stack_type_id" >
-                            @foreach($techStackTypes as $data)
+                        <select class="select2 form-select" id="tech_stack_type_id" name="tech_stack_type_id" >
+                            {{-- @foreach($techStackTypes as $data)
                             <option value="{{ $data->id }}" {{ old('tech_stack_type_id',  $techStack->tech_stack_type_id ?? '') == $data->id ? 'selected' : '' }}>{{ $data->name }}</option>
-                            @endforeach
+                            @endforeach --}}
                         </select>
-                        {{-- <select class=" form-select" >
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select> --}}
                         @error('tech_stack_type_id')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -65,8 +59,59 @@
 <script>
     // In your Javascript (external .js resource or <script> tag)
     $(document).ready(function () {
-        let select2 = $('.select2').select2();
-        //select2.data('select2').$selection.css('height', '38px');
+        //let select2 = $('.select2').select2();
+        let select2PageSize = 2;
+        $('#tech_stack_type_id').select2({
+            ajax: {
+                url: '{!! route('techStackTypes.dropdownList') !!}',
+                delay : 250,
+                cache: true,
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                        type: 'public',
+                        page: params.page || 1,
+                    }
+                    // Query parameters will be ?search=[term]&type=public
+                    return query;
+                },
+                processResults: function (data) {
+                    return {
+                        // Set options id and text
+                        results:  $.map(data.data, function (item) {
+                            return {
+                                text: item.name,
+                                id: item.id
+                            }
+                        }),
+                        pagination: {
+                            // Determine when select2 will fetch data again to backend
+                            more: (data.current_page * select2PageSize) < data.total
+                        }
+                    };
+                }
+            }
+        });
+
+
+        // Fetch the preselected item, and add to the control
+        var select2 = $('#tech_stack_type_id');
+        $.ajax({
+            type: 'GET',
+            url: '{{ url("admin/techStackTypes/") }}/'+{{ old('tech_stack_type_id',  $techStack->tech_stack_type_id ?? '') }}
+        }).then(function (data) {
+            // create the option and append to Select2
+            var option = new Option(data.name, data.id, true, true);
+            select2.append(option).trigger('change');
+
+            // manually trigger the `select2:select` event
+            select2.trigger({
+                type: 'select2:select',
+                params: {
+                    data: data
+                }
+            });
+        });
     });
 
 </script>

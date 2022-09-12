@@ -32,6 +32,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function () {
     Route::get('/workplaces/indexApi', [WorkplaceController::class, 'indexApi'])->name('workplaces.indexApi');
     Route::resource('workplaces', WorkplaceController::class);
 
+    Route::get('/techStackTypes/dropdownList', [TechStackTypeController::class, 'dropdownList'])->name('techStackTypes.dropdownList');
     Route::resource('techStackTypes', TechStackTypeController::class);
 
     Route::get('/techStacks/indexApi', [TechStackController::class, 'indexApi'])->name('techStacks.indexApi');

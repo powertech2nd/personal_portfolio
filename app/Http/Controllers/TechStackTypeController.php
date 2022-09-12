@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\TechStackType;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -21,6 +22,30 @@ class TechStackTypeController extends Controller
         $breadcrumbs_route = Route::currentRouteName();
         $breadcrumbs_object = null;
         return view('admin.techStackTypes.index', compact('techStackTypes', 'breadcrumbs_route', 'breadcrumbs_object'));
+    }
+
+    /**
+     * To popuate dropdown items
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dropdownList(Request $request)
+    {
+        $pagination_page = 1;
+        if ($request->has('page')) {
+            $pagination_page =  $request->page;
+        }
+
+        $data = [];
+        $data = TechStackType::select("id", "name");
+
+        if($request->has('q')){
+            $search = $request->q;
+            $data = $data->where('name','LIKE',"%$search%");
+        }
+
+        $data = $data->paginate(2);
+        return response()->json($data);
     }
 
     /**
@@ -59,7 +84,7 @@ class TechStackTypeController extends Controller
      */
     public function show(TechStackType $techStackType)
     {
-        //
+        return $techStackType;
     }
 
     /**
