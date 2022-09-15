@@ -39,8 +39,8 @@ class TechStackTypeController extends Controller
         $data = [];
         $data = TechStackType::select("id", "name");
 
-        if($request->has('q')){
-            $search = $request->q;
+        if($request->has('search')){
+            $search = $request->search;
             $data = $data->where('name','LIKE',"%$search%");
         }
 
@@ -111,7 +111,6 @@ class TechStackTypeController extends Controller
     public function update(UpdateTechStackTypeRequest $request, TechStackType $techStackType)
     {
          $techStackType->fill($request->all());
-
          $techStackType->save();
 
          Session::flash('global_success_alert_msg', 'Success update data');

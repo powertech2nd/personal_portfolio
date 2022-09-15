@@ -98,7 +98,7 @@
         var select2 = $('#tech_stack_type_id');
         $.ajax({
             type: 'GET',
-            url: '{{ url("admin/techStackTypes/") }}/'+{{ old('tech_stack_type_id',  $techStack->tech_stack_type_id ?? '') }}
+            url: '{{ url("admin/techStackTypes/") }}/'+'{{ old('tech_stack_type_id',  $techStack->tech_stack_type_id ?? '') }}'
         }).then(function (data) {
             // create the option and append to Select2
             var option = new Option(data.name, data.id, true, true);
