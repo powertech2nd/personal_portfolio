@@ -3,6 +3,7 @@
 // Note: Laravel will automatically resolve `Breadcrumbs::` without
 // this import. This is nice for IDE syntax and refactoring.
 use App\Models\Education;
+use App\Models\Project;
 use App\Models\TechStack;
 // This import is also not required, and you could replace `BreadcrumbTrail $trail`
 //  with `$trail`. This is nice for IDE type checking and completion.
@@ -66,3 +67,20 @@ Breadcrumbs::for('techStacks.edit', function (BreadcrumbTrail $trail, TechStack 
     $trail->push('Edit', route('techStacks.edit', $techStack));
 });
 /* end TECHSTACK */
+
+
+/* PROJECT */
+Breadcrumbs::for('projects.index', function (BreadcrumbTrail $trail) {
+    $trail->push('Project', route('projects.index'));
+});
+
+Breadcrumbs::for('projects.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('projects.index');
+    $trail->push('Create', route('projects.create'));
+});
+
+Breadcrumbs::for('projects.edit', function (BreadcrumbTrail $trail, Project $project) {
+    $trail->parent('projects.index');
+    $trail->push('Edit', route('projects.edit', $project));
+});
+/* end PROJECT */

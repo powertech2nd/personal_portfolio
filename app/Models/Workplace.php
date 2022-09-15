@@ -24,4 +24,10 @@ class Workplace extends Model
      * @var array
      */
     protected $guarded = ['created_at', 'updated_at','deleted_at'];
+
+    
+    public function projects()
+    {
+        return $this->hasMany(Project::class, 'workplace_id', 'id');
+    }
 }

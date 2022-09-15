@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TechStack;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
@@ -30,6 +31,31 @@ class TechStackController extends Controller
         return DataTables::eloquent($model)
             ->make(true);
     }
+
+    /**
+     * To popuate dropdown items
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dropdownList(Request $request)
+    {
+        $pagination_page = 1;
+        if ($request->has('page')) {
+            $pagination_page =  $request->page;
+        }
+
+        $data = [];
+        $data = TechStack::select("id", "name");
+
+        if($request->has('search')){
+            $search = $request->search;
+            $data = $data->where('name','LIKE',"%$search%");
+        }
+
+        $data = $data->paginate(10);
+        return response()->json($data);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -68,6 +94,21 @@ class TechStackController extends Controller
     public function show(TechStack $techStack)
     {
         //
+    }
+
+    /**
+     * Shpw multiple tech stacks
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showList(Request $request)
+    {
+        if (!$request->tech_stack_ids) {
+            return null;
+        }
+        $arrIds = $request->tech_stack_ids;
+        $data = TechStack::whereIn('id', $arrIds)->get();
+        return response()->json($data);
     }
 
     /**

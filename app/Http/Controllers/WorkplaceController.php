@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Workplace;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,30 @@ class WorkplaceController extends Controller
         $breadcrumbs_route = Route::currentRouteName();
         $breadcrumbs_object = null;
         return view('admin.workplaces.index', compact('breadcrumbs_route', 'breadcrumbs_object'));
+    }
+
+    /**
+     * To popuate dropdown items
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dropdownList(Request $request)
+    {
+        $pagination_page = 1;
+        if ($request->has('page')) {
+            $pagination_page =  $request->page;
+        }
+
+        $data = [];
+        $data = Workplace::select("id", "instance_name");
+
+        if($request->has('search')){
+            $search = $request->search;
+            $data = $data->where('instance_name','LIKE',"%$search%");
+        }
+
+        $data = $data->paginate(10);
+        return response()->json($data);
     }
 
     /**
@@ -121,7 +146,7 @@ class WorkplaceController extends Controller
      */
     public function show(Workplace $workplace)
     {
-        //
+        return $workplace;
     }
 
     /**
