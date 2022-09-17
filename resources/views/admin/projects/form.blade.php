@@ -37,8 +37,9 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="description">Description</label>
-                        <input class="form-control @error('description') is-invalid @enderror" id="description"
-                            name="description" type="text" value="{{ old('description',  $project->description ?? '') }}">
+                        <textarea class="form-control @error('description') is-invalid @enderror" name="description" id="description" rows="10" cols="80">
+                           {{ old('description',  $project->description ?? '') }}
+                        </textarea>
                         @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -116,8 +117,12 @@
 
 @section('custom-js')
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
+
 <script>
     $(document).ready(function () {
+        CKEDITOR.replace( 'description' );
+
         let select2PageSize = 10;
         $('#workplace_id').select2({
             ajax: {
@@ -156,7 +161,7 @@
         var select2Workplace = $('#workplace_id');
         $.ajax({
             type: 'GET',
-            url: '{{ url("admin/workplaces/") }}/'+'{{ old('workplace_id',  $project->workplace_id ?? '') }}'
+            url: '{{ url("admin/workplaces/") }}/'+ {{ old("workplace_id",  $project->workplace_id ?? "") }}
         }).then(function (data) {
             // create the option and append to Select2
             var option = new Option(data.instance_name, data.id, true, true);
@@ -212,7 +217,7 @@
         $.ajax({
             type: 'GET',
             url: '{{ route("techStacks.showList") }}',
-            data: { tech_stack_ids : @json(old('tech_stack_ids', $project->techStacks->pluck('id')->toArray() ?? null))}
+            data: { tech_stack_ids : @json(old('tech_stack_ids', isset($project) ? $project->techStacks->pluck('id')->toArray() : null))}
         }).then(function (data) {
             // create the option and append to Select2
             if (data) {
