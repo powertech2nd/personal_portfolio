@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\EducationController;
 use App\Http\Controllers\TechStackController;
 use App\Http\Controllers\WorkplaceController;
 use App\Http\Controllers\TechStackTypeController;
+use App\Http\Controllers\PersonalPortfolioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,16 @@ use App\Http\Controllers\TechStackTypeController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+/* Personal Portfolio */
+Route::get('/', [PersonalPortfolioController::class, 'index'])->name('personalPortfolio.index');
+Route::get('/projects', [PersonalPortfolioController::class, 'projects'])->name('personalPortfolio.projects');
+Route::get('/techStacks', [PersonalPortfolioController::class, 'techStacks'])->name('personalPortfolio.techStacks');
+Route::get('/contact', [PersonalPortfolioController::class, 'contact'])->name('personalPortfolio.contact');
+/* End Personal Portfolio */
 
 Auth::routes();
 
