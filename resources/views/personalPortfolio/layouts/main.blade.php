@@ -129,7 +129,13 @@
             </div>
         </header>
 
-       
+        @if(Session::has('global_success_alert_msg'))
+        <div class="alert {{ Session::get('global_success_alert_class', 'alert-info') }} alert-dismissible fade show" role="alert">
+            {{ Session::get('global_success_alert_msg') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+
 
         @yield('content')
 

@@ -28,6 +28,7 @@ Route::get('/', [PersonalPortfolioController::class, 'index'])->name('personalPo
 Route::get('/projects', [PersonalPortfolioController::class, 'projects'])->name('personalPortfolio.projects');
 Route::get('/techStacks', [PersonalPortfolioController::class, 'techStacks'])->name('personalPortfolio.techStacks');
 Route::get('/contact', [PersonalPortfolioController::class, 'contact'])->name('personalPortfolio.contact');
+Route::post('/contact', [PersonalPortfolioController::class, 'contactSubmit'])->name('personalPortfolio.contactSubmit');
 /* End Personal Portfolio */
 
 Auth::routes();

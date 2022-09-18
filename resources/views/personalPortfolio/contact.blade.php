@@ -35,6 +35,14 @@
         input:-webkit-autofill {
             -webkit-text-fill-color: white !important;
         }
+
+        .form-control.is-invalid, .was-validated .form-control:invalid {
+            color: #eb4432;
+        }
+
+        .invalid-feedback{
+            color: #eb4432;
+        }
     </style>
 @endsection
 
@@ -47,29 +55,42 @@
                 form below.</p>
         </div>
         <div class="row mt-3">
-            <form>
+            <form method="post" action="{{ route('personalPortfolio.contactSubmit') }}">
+                @csrf
                 <div class="row mb-3">
                     <div class="col-6">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <input type="text" class="form-control  @error('name') is-invalid @enderror" id="name" name="name">
+                        @error('name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class=" col-6">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email">
+                        <input type="email" class="form-control  @error('email') is-invalid @enderror" id="email" name="email">
+                        @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
 
                 <div class=" mb-3">
                     <label for="subject" class="form-label">Subject</label>
-                    <input type="text" class="form-control" id="subject" name="subject">
+                    <input type="text" class="form-control  @error('subject') is-invalid @enderror" id="subject" name="subject">
+                    @error('subject')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="mb-3">
                     <label for="message" class="form-label">Message</label>
-                    <textarea class="form-control" id="message" name="message" rows="3"></textarea>
+                    <textarea class="form-control  @error('message') is-invalid @enderror" id="message" name="message" rows="3"></textarea>
+                    @error('message')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
-                <button type="button" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </section>
