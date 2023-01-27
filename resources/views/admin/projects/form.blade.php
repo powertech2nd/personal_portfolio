@@ -161,7 +161,7 @@
         var select2Workplace = $('#workplace_id');
         $.ajax({
             type: 'GET',
-            url: '{{ url("admin/workplaces/") }}/'+ {{ old("workplace_id",  $project->workplace_id ?? "") }}
+            url: '{{ url("admin/workplaces/") }}/'+ '{{ old("workplace_id",  $project->workplace_id ?? "") }}'
         }).then(function (data) {
             // create the option and append to Select2
             var option = new Option(data.instance_name, data.id, true, true);
