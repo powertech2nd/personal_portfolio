@@ -118,6 +118,16 @@
             color: white;
         }
 
+        .label-mathjax {
+            background-color: #2d9c43;
+            color: white;
+        }
+
+        .label-octobercms {
+            background-color: #dc6c25;
+            color: white;
+        }
+
         .line-project-separator {
             margin-top: 30px;
             margin-bottom:30px;
@@ -174,6 +184,39 @@
                             <div class="card-text">
                                 <span class="badge label-golang">Golang</span>
                                 <span class="badge label-gingonic">Gin Gonic</span>
+                                <span class="badge label-mysql">MySQL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="line-project-separator">
+
+                    <div class="card border-0">
+                        <div class="card-body">
+                            <h5 class="card-title">Geniebook Blog</h5>
+                            <p class="card-text fs-6">Build a blog website where user can input an article dynamically to the blog via an admin page created using October CMS and use Code Igniter to show the articles.
+                                </p>
+                            <p class="card-text fs-6">In the article user can input any kind of data including mathematical formula.</p>
+                            <div class="card-text">
+                                <span class="badge label-codeigniter">Code Igniter</span>
+                                <span class="badge label-octobercms">October CMS</span>
+                                <span class="badge label-mysql">MySQL</span>
+                                <span class="badge label-mathjax">MathJax</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <hr class="line-project-separator">
+
+                    <div class="card border-0">
+                        <div class="card-body">
+                            <h5 class="card-title">Geniebook Homepage</h5>
+                            <p class="card-text fs-6">Assist in developing the company homepage website to improve the business presence online, web usability, and gain more leads. To achieve the goal the engineering team work closely with branding, design, product, and marketing team.
+                                </p>
+                            <p class="card-text fs-6">There are serveal aspect that need to be considered when managing the website such as SEO, website performance, and mobile responsiveness.</p>
+                            <div class="card-text">
+                                <span class="badge label-golang">Code Igniter</span>
                                 <span class="badge label-mysql">MySQL</span>
                             </div>
                         </div>

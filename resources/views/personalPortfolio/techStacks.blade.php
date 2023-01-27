@@ -167,6 +167,8 @@
                         <li>Git</li>
                         <li>Jira</li>
                         <li>K2 Apps</li>
+                        <li>MathJax</li>
+                        <li>October CMS</li>
                         <li>KepServer OPC Server</li>
                         <li>SQL Server Reporting Service</li>
                     </ul>
